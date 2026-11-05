@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% load django_bootstrap5 %}
+
+{% block title %}
+  Список заявок
+{% endblock %}
+
+{% block content %}
+    <h1>Список заявок</h1>
+
+    {% for contest in contests %}
+    <div>
+        {{ contest.id }}, {{ contest.title }}, {{ contest.price }}, {{ contest.description }}, {{ contest.comment }}
+    
+        <a href="/contest/{{ contest.id }}/edit/">Редактировать заявку</a> 
+        | 
+        <a href="/contest/{{ contest.id }}/delete/">Удалить заявку</a>
+    </div>
+    {% empty %}
+    <p>Пока нет ни одной заявки.</p>
+    {% endfor %}
+{% endblock %}

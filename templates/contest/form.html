@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% load django_bootstrap5 %}
+
+{% block title %}
+  {% if 'edit' in request.path %}
+    Редактировать заявку
+  {% elif 'delete' in request.path %}
+    Удалить заявку
+  {% else %}
+    Подать заявку на конкурс
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+  {% if 'edit' in request.path %}
+    <h2>Редактировать заявку {{ contest.id }}</h2>
+  {% elif 'delete' in request.path %}
+    <h2>Удалить заявку {{ contest.id }}</h2>
+  {% else %}
+    <h2>Подать заявку</h2>
+  {% endif %}
+
+  {% if 'delete' in request.path %}
+    <p>{{ contest.title }}</p>
+    <p>{{ contest.price }}</p>
+    <p>{{ contest.description }}</p>
+    <p>{{ contest.comment }}</p>
+
+    <form method="post">
+      {% csrf_token %}
+      {% bootstrap_button button_type='submit' content='Удалить' %}
+    </form>
+  {% else %}
+    <form method="post">
+      {% csrf_token %}
+      {% bootstrap_form form %}
+      {% bootstrap_button button_type='submit' content='Отправить' %}
+    </form>
+
+    {% if contest_id %}
+      <h2>Заявка №{{ contest_id }} принята!</h2>
+    {% endif %}
+  {% endif %}
+{% endblock %}
